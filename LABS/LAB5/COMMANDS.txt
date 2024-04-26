@@ -5,7 +5,12 @@ lex test.l
 gcc lex.yy.c -ll -o scan1
 
 // make s file
-gcc -sav-temps input.c
+gcc -save-temps input.c
 
 // send this s as input to l
 ./scan1 <a-input.s> output
+
+
+or
+
+./scan1 <input.s> output

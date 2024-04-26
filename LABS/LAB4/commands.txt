@@ -1,0 +1,3 @@
+lex lab4.l
+gcc lex.yy.c -ll -o scan4
+./scan4 <input.txt
