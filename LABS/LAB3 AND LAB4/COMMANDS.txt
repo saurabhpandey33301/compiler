@@ -1,0 +1,3 @@
+lex file.l
+gcc lex.yy.c -ll -o filename
+./filename <input file> outputfilename

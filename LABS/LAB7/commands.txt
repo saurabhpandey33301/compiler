@@ -1,0 +1,4 @@
+lex test.l
+yacc -d -v test.y
+gcc lex.yy.c y.tab.c -ll -o parser1
+./parser1 <inp> output1

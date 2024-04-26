@@ -1,0 +1,11 @@
+EXP: Assembly language
+
+
+lex test.l
+gcc lex.yy.c -ll -o scan1
+
+// make s file
+gcc -sav-temps input.c
+
+// send this s as input to l
+./scan1 <a-input.s> output
