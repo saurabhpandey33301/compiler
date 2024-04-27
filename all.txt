@@ -1,0 +1,363 @@
+//START VM BOX TERMINAL 
+
+
+//mkdir LAB
+
+//cd LAB
+
+//TO GENERATE FILE vi lab.l generates file in terminal
+
+// press esc then shift+: comes to bottom  //enter wq creates a file //open folder paste code
+
+
+// then type in terminal lex lab.l compiles it
+
+// now type gcc lex.yy.c -ll -o scan1 this will take a input
+//now create a inp1.txt file using vi inp1.txt
+
+
+//press esc then shift+: comes to bottom
+//enter wq creates a file
+
+
+//now type ./scan1<inp1.txt press enter
+
+
+
+//lab -- 2
+%%
+[ \t\n]
+
+a*b  {printf("Token %s found \n", yytext); return 1;}
+c+  {printf("Token %s found \n", yytext); return 1;}
+. {printf("err\n"); return 3;}
+%%
+int yywrap() {
+    return 1;
+}
+
+int main() {
+    while(yylex());
+}
+
+
+
+//lab -- 3
+
+%{
+    #include<stdio.h>
+    int keyword=0,hex=0, id=0, oct=0, normalint=0, dec=0, mult=0, arth=0, bits=0, rel=0, assnmt=0, lp=0, rp=0, del=0;
+%}
+
+%option noyywrap
+L[A-Za-z]
+D[0-9]
+DO [0-7]
+HX [A-Fa-f0-9]
+
+
+%%
+int|if|else|return|float|char|const|static|while|do|void  {printf("keyword found\n");keyword++; return 1;}
+
+0{DO}+ {printf("Octal number found\n"); oct++;return 1;}
+0x{HX}+ {printf("Hexadecimal number found\n"); hex++;return 1;}
+ 
+"*"|"/"|"%" {printf("multiplicative op found");mult++; return 1;}
+"+"|"-" {printf("arithmetic op found");arth++; return 1;}
+"<<"|">>" {printf("bitwise op found");bits++; return 1;}
+
+
+
+{L}({L}|{D})*  {printf("identifier found\n"); id++;return 1;}
+{D}+ {printf("number obtained\n");normalint++; return 1;}
+{D}*\.{D}+|{D}+.{D}*|{D}+ {printf("Decimal number found\n");dec++; return 1;}
+"<"|"<="|">"|">="|"=="|"!=" {printf("Relational Operator found \n"); return 1;}
+"="|"+="|"-=" {printf("Assignment Operator found \n");assnmt++; return 1;}
+"("|"["|"{" {printf("Left parenthesis found \n");lp++;return 1;}
+")"|"]"|"}" {printf("Right parenthesis found \n");rp++;return 1;}
+";"|","|":"|"." {printf("Delimiter found \n");del++;return 1;}
+%%
+
+int main() {
+    while(yylex());
+     printf("Number of Hexadecimal tokens found: %d \n", hex);
+    printf("Number of Identifiers found: %d \n", id);
+    printf("Number of Octal tokens found: %d \n", oct);
+    printf("Number of Integer tokens found: %d \n", normalint);
+    printf("Number of Decimal tokens found: %d \n", dec);
+    printf("Number of Multiplicative tokens found: %d \n", mult);
+    printf("Number of Arithmetic tokens found: %d \n", arth);
+    printf("Number of Bitwise Shift tokens found: %d \n", bits);
+    printf("Number of Relational tokens found: %d \n", rel);
+    printf("Number of Assignment tokens found: %d \n", assnmt);
+    printf("Number of Left Parenthesis found: %d \n", lp);
+    printf("Number of Right Parenthesis found: %d \n", rp);
+    printf("Number of Delimiter tokens found: %d \n", del);
+}
+
+
+
+//lab --- 4
+%{
+    #include<stdio.h>
+    int keyword=0,hex=0, id=0, oct=0, normalint=0, dec=0, mult=0, arth=0, bits=0, rel=0, assnmt=0, lp=0, rp=0, del=0,comment = 0;
+%}
+
+%option noyywrap
+L[A-Za-z]
+D[0-9]
+DO [0-7]
+HX [A-Fa-f0-9]
+
+
+%%
+int|if|else|return|float|char|const|static|while|do|void  {printf("keyword found\n");keyword++; return 1;}
+
+0{DO}+ {printf("Octal number found\n"); oct++;return 1;}
+0x{HX}+ {printf("Hexadecimal number found\n"); hex++;return 1;}
+\/\([^]|\+[^/])\+\/ {printf("Token Comment : Lexeme: %s \n",yytext);comment++;}
+\/\/.*  {printf("Token Comment : Lexeme: %s \n",yytext);comment++;}
+ 
+"*"|"/"|"%" {printf("multiplicative op found");mult++; return 1;}
+"+"|"-" {printf("arithmetic op found");arth++; return 1;}
+"<<"|">>" {printf("bitwise op found");bits++; return 1;}
+
+
+
+{L}({L}|{D})*  {printf("identifier found\n"); id++;return 1;}
+{D}+ {printf("number obtained\n");normalint++; return 1;}
+{D}*\.{D}+|{D}+.{D}*|{D}+ {printf("Decimal number found\n");dec++; return 1;}
+"<"|"<="|">"|">="|"=="|"!=" {printf("Relational Operator found \n"); return 1;}
+"="|"+="|"-=" {printf("Assignment Operator found \n");assnmt++; return 1;}
+"("|"["|"{" {printf("Left parenthesis found \n");lp++;return 1;}
+")"|"]"|"}" {printf("Right parenthesis found \n");rp++;return 1;}
+";"|","|":"|"." {printf("Delimiter found \n");del++;return 1;}
+%%
+
+int main() {
+    while(yylex());
+     printf("Number of Hexadecimal tokens found: %d \n", hex);
+    printf("Number of Identifiers found: %d \n", id);
+    printf("Number of Octal tokens found: %d \n", oct);
+    printf("Number of Integer tokens found: %d \n", normalint);
+    printf("Number of Decimal tokens found: %d \n", dec);
+    printf("Number of Multiplicative tokens found: %d \n", mult);
+    printf("Number of Arithmetic tokens found: %d \n", arth);
+    printf("Number of Bitwise Shift tokens found: %d \n", bits);
+    printf("Number of Relational tokens found: %d \n", rel);
+    printf("Number of Assignment tokens found: %d \n", assnmt);
+    printf("Number of Left Parenthesis found: %d \n", lp);
+    printf("Number of Right Parenthesis found: %d \n", rp);
+    printf("Number of Delimiter tokens found: %d \n", del);
+}
+
+
+
+
+// lab --- 5
+
+%{
+  #include<stdio.h>
+%}
+
+%option noyywrap
+D [0-9]
+L [A-Za-z0-9]
+OD [0-7]
+HD [A-Fa-f0-9]
+r16 "rip"|"rsp"|"rbp"|"rax"|"rdi"|"rsi"|"rdx"|"rbx"|"r8"|"r9"|"r10"|"r11"|"r12"|"r13"|"r14"|"r15"
+r32 "esp"|"ebp"|"eax"|"edi"|"esi"|"edx"|"ebx"
+op "sub"|"mov"|"xor"|"lea"|"add"|"ret"|"cmp"|"imul"|"sal"|"shr"|"and"|"or"|"not"
+oai "endbr64"|"call"
+jmp "jmp"|"je"|"jne"|"js"|"jns"|"jg"|"jge"|"jl"|"jle"
+si "pushq"|"popq"
+del ";"|":"|","|"."
+
+
+%%
+\.file.*\n ;{ printf("File Name %s\n",yytext);}
+\.string.*\n ;{ printf("Format String %s\n",yytext);}
+
+\.LC0|\.LFB23|\.LFE23 { printf("Label :%s\n",yytext);}
+\..*\n { printf("Assembler Directive: :%s\n",yytext);}
+{op}b {printf("1 Word Instruction: %s\n",yytext);}
+{op}w {printf("2 Word Instruction: %s\n",yytext);}
+{op}l {printf("Long Word Instruction: %s\n",yytext);}
+{op}q {printf("quad Word Instruction: %s\n",yytext);}
+{r16} {printf("64 bit register operand: %s\n",yytext);}
+{r32} {printf("32 bit register operand: %s\n",yytext);}
+"("|"["|"{" { printf("Token LEFTPAR %s\n",yytext);}
+")"|"]"|"}" { printf("Token RIGHTPAR %s\n",yytext);}
+{si} {printf("Stack Instruction %s\n",yytext);}
+{oai} {printf("Other Assembly Instruction %s\n",yytext);}
+{jmp} {printf("Jump Instruction %s\n",yytext);}
+{del} {printf("DELIMITER %s\n",yytext);}
+${D}* {printf("Immediate Operand %s\n",yytext);}
+__.*\n {printf("Function Call %s\n",yytext);}
+%%
+
+
+
+
+int main(){
+    while(yylex());
+}
+
+
+
+//////lab -- 06
+
+decl1.L . file
+
+
+%{
+#include <stdio.h>
+#include "y.tab.h"
+#include <stdlib.h>
+extern int yylval;
+%}
+
+ws [ \t\n]+
+letter [A-Za-z]
+digit  [0-9]
+id {letter}({letter}|{digit})*
+real {digit}+(\.{digit}+)?(E[+\-]?{digit}+)?
+num [+\- ]{digit}+
+
+%%
+
+{ws}        {;/* No action */}
+"char"      {yylval = sizeof(char); return CHAR;}
+"int"       {yylval = sizeof(int);  return INT;}
+"float"     {yylval = sizeof(float); return FLOAT;}
+{id}        {return ID;}
+{digit}+    {return NUM;}
+";"         {return ';';}
+","         {return ',';;}
+%%
+
+int yywrap(void)
+{ return 1; }
+
+
+decl1.y  file
+
+
+
+
+/*C declarations*/
+%{ #include <stdio.h>
+   int yylex(void);
+   void yyerror(char *);
+   extern  yychar;
+   int declcnt = 0;
+   int count_char=0,count_int=0,count_float=0;
+%}
+
+/* YACC Declarations */
+
+%token CHAR INT FLOAT ID NUM 
+%right  '*' 
+     
+/* Grammar follows */
+%%
+
+declist: decl  declist  {printf("Rule 1 : declist -> decl declist used\n");} 
+	 |              {printf("Rule 2 : declist -> Null used \n");}
+         ;                 
+decl:    type list ';'  {printf("Rule 3 : decl -> type list; used\n"); ++declcnt;}
+         ;
+type:    INT            {printf("Rule 4 : type -> INT used\n");count_int++;}
+         | FLOAT        {printf("Rule 5 : type -> FLOAT used\n");count_float++;}
+         | CHAR         {printf("Rule 6 : type -> CHAR used\n");count_char++;}
+         ;
+list :   list ',' ID   {printf("Rule 7 : list -> list , ID Q used\n");}
+         | ID          {printf("Rule 8 : list -> ID Q used\n");}
+         ;
+         ;
+
+%%
+void yyerror(char *s)
+     {printf(" %s  Line number : %d near symbol %c \n", s, (char)yychar); }
+
+    
+int main ()
+{  // yydebug = 1;
+   yyparse (); 
+   printf(" No of declaration statements : %d \n", declcnt);
+   printf(" No of Integer datatypes : %d \n",count_int);
+   printf(" No of Float datatypes : %d \n",count_float);
+   printf(" No of Character datatypes : %d \n",count_char);
+
+   return 0;
+}
+
+
+
+//lab -- 7
+
+//decl1.L
+
+
+%{
+#include <stdio.h>
+#include <stdlib.h>
+#include "y.tab.h"
+extern int yylval;
+%}
+letter [A-Za-z]
+digit [0-9]
+ws [ \t\n]
+%%
+"+" {return '+';}
+"*" {return '*';}
+{digit}+ {yylval = atoi(yytext);return NUM;}
+%%
+int yywrap(void){return 1;}
+
+
+
+/////decl1.y
+
+
+/*C declarations*/
+%{ #include <stdio.h>
+   int yylex(void);
+   void yyerror(char *);
+   extern int yylineno, yychar;
+   int declcnt = 0;
+   int count_char=0,count_int=0,count_float=0;
+%}
+
+/* YACC Declarations */
+
+%token CHAR INT FLOAT ID NUM 
+%right  '*' 
+
+     
+/* Grammar follows */
+%%
+EL:EL E {$$=$2;}
+    |
+    ;
+E: E '+' T {$$ = $1 + $3;printf("Value of E+T: %d\n",$$);}
+    | T{$$=$1;}
+    ;
+T: T '*' F {$$ = $1 * $3;printf("Value after T*F: %d\n",$$);}
+    | F{$$=$1;}
+    ;
+F : NUM {$$ = $1;printf("NUMBER : %d\n",$$);}
+    | 
+    ;
+
+%%
+void yyerror(char *s)
+     {printf(" %s  Line number : %d near symbol %c \n", s, yylineno, (char)yychar); }
+
+    
+int main ()
+{  // yydebug = 1;
+   yyparse (); 
+   printf(" No of declaration statements : %d \n", declcnt);
+   return 0;
+}
